@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#211b50">
+<title>Birthday Quest — The Secret Birthday Kingdom</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+:root{--ink:#29234f;--violet:#7865c9;--pink:#ff8eb5;--gold:#ffd76b;--mint:#8ce4c2;--paper:#fff9e9}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:Nunito,system-ui,sans-serif;background:radial-gradient(circle at 15% 10%,#564c9a 0 2px,transparent 3px),radial-gradient(circle at 82% 20%,#fff2a8 0 2px,transparent 3px),linear-gradient(155deg,#17183f,#37306e 58%,#6d4c91);background-size:170px 150px,230px 190px,cover;background-attachment:fixed;overflow-x:hidden}
+button{font:inherit;cursor:pointer;border:0}
+.wrap{max-width:900px;margin:auto;padding:22px 16px 55px}
+.top{display:flex;justify-content:space-between;align-items:center;color:#fff;margin-bottom:16px;gap:12px}
+.brand{font:700 18px Fredoka,sans-serif;letter-spacing:.5px}
+.sound{background:#ffffff20;color:#fff;border:1px solid #ffffff40;border-radius:999px;padding:9px 13px}
+.hero{text-align:center;color:#fff;padding:22px 8px 16px}
+.kicker{font-weight:900;letter-spacing:3px;font-size:11px;color:#ffe7a1;text-transform:uppercase}
+h1{font:700 clamp(34px,8vw,66px)/1.02 Fredoka,sans-serif;margin:10px 0;text-shadow:0 5px 0 #30265f}
+.subtitle{color:#eee6ff;font-size:15px}
+.panel{background:var(--paper);border:4px solid #fff;border-radius:28px;box-shadow:0 12px 0 #1c1947,0 22px 50px #0d0c2d70;padding:clamp(18px,4vw,30px);position:relative;overflow:hidden}
+.panel:before{content:"";position:absolute;inset:9px;border:2px dashed #e9d8b8;border-radius:19px;pointer-events:none}
+.panel>*{position:relative}
+.stats{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.pill{background:#f0e9ff;border:2px solid #dfd4ff;border-radius:999px;padding:7px 12px;font-weight:900;font-size:13px}
+.progress{height:12px;background:#e9e0d2;border-radius:99px;overflow:hidden;margin:8px 0 20px}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff92b7,#ffc85f,#8adfc2);transition:width .4s}
+h2{font:700 clamp(25px,5vw,34px) Fredoka,sans-serif;margin:6px 0 8px}
+p{line-height:1.55}
+.scene{min-height:235px;border-radius:22px;background:linear-gradient(150deg,#d8e9ff,#fce4f0 58%,#fff0bd);border:3px solid #fff;box-shadow:inset 0 0 0 2px #d9c8e9;padding:20px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;position:relative;overflow:hidden}
+.big-emoji{font-size:76px;filter:drop-shadow(0 7px 0 #00000012);animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(3deg)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+@keyframes pop{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.btn{background:#7563c8;color:white;padding:12px 20px;border-radius:999px;font-weight:900;box-shadow:0 5px 0 #4d408d;transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #4d408d}
+.btn.alt{background:#ff8eb5;box-shadow:0 5px 0 #d45f91}
+.btn.gold{background:#f2bd48;color:#4b3671;box-shadow:0 5px 0 #bd8730}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.hint{font-size:13px;color:#756b83;font-weight:800;margin-top:12px;min-height:20px}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.level{border:3px solid #e6d9c5;border-radius:18px;background:#fffdf7;padding:12px 6px;min-height:110px;color:var(--ink);font-weight:900;box-shadow:0 4px 0 #e5d7c3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.level .ico{font-size:32px}.level small{font-size:11px;color:#81758f}
+.level.locked{filter:grayscale(1);opacity:.55}
+.level.done{background:#e5fff3;border-color:#9edfc2}
+.targets{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.star{font-size:40px;background:#fff;border:3px solid #f3d98c;border-radius:16px;width:66px;height:66px;box-shadow:0 4px 0 #e7c56f;transition:.15s}
+.star.found{background:#d8ffe9;opacity:.5;transform:scale(.88)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.choice{background:#fff;border:2px solid #d9c9ee;border-radius:15px;padding:13px;font-weight:900;color:var(--ink);box-shadow:0 4px 0 #e5d9ef}
+.choice:hover{background:#f4edff}
+.cups{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.cup{font-size:43px;background:#fff;border:3px solid #ead7b7;border-radius:15px;padding:14px 9px;box-shadow:0 5px 0 #d9c5a5}
+.cup:active{transform:translateY(3px)}
+.balloons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:15px}
+.balloon{font-size:43px;background:transparent;transition:.2s}
+.balloon.popped{transform:scale(0);opacity:0;pointer-events:none}
+.candles{display:flex;gap:14px;justify-content:center;margin:18px}
+.candle{font-size:38px;background:#fff;border-radius:14px;padding:8px;border:2px solid #f2d5a0}
+.candle.lit{background:#fff2b9;box-shadow:0 0 18px #ffc84c}
+.hidden{display:none!important}
+.note{background:#fff;border:2px dashed #e6b8ce;border-radius:18px;padding:18px;text-align:left;max-width:550px;margin:15px auto;line-height:1.7}
+.footer{text-align:center;color:#e9defb;font-size:12px;margin-top:22px}
+.toast{font-weight:900;color:#7953a5;min-height:25px;margin-top:10px}
+.spark{position:fixed;pointer-events:none;z-index:9;font-size:20px;animation:fall 1.5s ease-out forwards}
+@keyframes fall{to{transform:translateY(100vh) rotate(500deg);opacity:0}}
+@media(max-width:520px){.map{gap:8px}.level{min-height:98px}.choices{grid-template-columns:1fr}.scene{min-height:220px}.brand{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">✦ THE LITTLE QUEST CLUB</div><button class="sound" id="soundBtn" onclick="toggleSound()">♫ Sound: off</button></div>
+  <header class="hero">
+    <div class="kicker">A special mission · November 25</div>
+    <h1>Birthday Quest!</h1>
+    <div class="subtitle">The Secret Birthday Kingdom · 生日王国的秘密</div>
+  </header>
+  <main class="panel">
+    <div class="stats">
+      <div class="pill">⭐ Stars: <span id="starCount">0</span>/5</div>
+      <div class="pill">🏆 Treasures: <span id="treasureCount">0</span>/5</div>
+      <div class="pill" id="stagePill">📍 Stage 0</div>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+
+    <section id="intro">
+      <div class="scene"><div class="big-emoji">🗺️</div><h2>A tiny adventure awaits...</h2><p>A mysterious map has appeared. It says the Birthday Treasure is hidden somewhere in this kingdom.</p><p><b>Only one very special explorer can find it.</b><br>准备好了吗？</p></div>
+      <div class="actions"><button class="btn gold" onclick="showMap()">ACCEPT THE MISSION ✨</button></div>
+      <div class="hint">P.S. This quest may contain silly creatures.</div>
+    </section>
+
+    <section id="mapScreen" class="hidden">
+      <h2>Choose your next adventure!</h2><p>Complete each little challenge to unlock the next place.</p>
+      <div class="map" id="mapGrid"></div>
+      <div class="actions"><button class="btn alt" onclick="playLevel(currentLevel)" id="continueBtn">LET'S GO →</button></div>
+      <div class="hint">地图提示：灰色关卡还没解锁哦。</div>
+    </section>
+
+    <section id="gameScreen" class="hidden">
+      <div id="gameContent"></div>
+      <div class="toast" id="toast"></div>
+      <div class="actions"><button class="btn" onclick="backToMap()">← BACK TO MAP</button></div>
+    </section>
+
+    <section id="ending" class="hidden">
+      <div class="scene"><div class="big-emoji">👑🎂💎</div><h2>YOU DID IT, BIRTHDAY LEGEND!</h2><p>You found the Secret Birthday Treasure!</p><p>王国的所有星星，今天都为你闪耀。</p></div>
+      <div class="note">
+        <h2>💌 A little note for you</h2>
+        <p>Happy Birthday to someone who makes the world a little brighter!</p>
+        <p>I hope your new year is filled with laughter, wonderful surprises, brave adventures, and all the little things that make you happy.</p>
+        <p>Thank you for being such a special friend. Never forget how amazing you are.</p>
+        <p><b>今天你是全世界最重要的主角。生日快乐！</b></p>
+        <p style="text-align:right">— Your Secret Birthday Fairy ✨</p>
+      </div>
+      <div class="actions"><button class="btn gold" onclick="celebrate()">MAKE IT RAIN CONFETTI 🎉</button><button class="btn alt" onclick="restart()">PLAY AGAIN ↻</button></div>
+    </section>
+  </main>
+  <div class="footer">Made with a little magic, a lot of friendship, and questionable game design. ✦</div>
+</div>
+<script>
+let currentLevel=0, stars=0, treasures=0, soundOn=false, foundStars=new Set(), keyFound=false, popped=0, lit=new Set();
+const names=['The Star Thief','The Silly Forest','The Lost Key','The Balloon Bandits','The Birthday Castle'];
+const icons=['⭐','🌳','🗝️','🎈','🏰'];
+function show(id){['intro','mapScreen','gameScreen','ending'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id))}
+function update(){
+ document.getElementById('starCount').textContent=stars;
+ document.getElementById('treasureCount').textContent=treasures;
+ document.getElementById('stagePill').textContent='📍 Stage '+currentLevel;
+ document.getElementById('progressBar').style.width=(currentLevel/5*100)+'%';
+}
+function showMap(){show('mapScreen');drawMap();update()}
+function drawMap(){
+ const grid=document.getElementById('mapGrid');grid.innerHTML='';
+ names.forEach((n,i)=>{let b=document.createElement('button');b.className='level '+(i<currentLevel?'done':i>currentLevel?'locked':'');b.innerHTML=`<span class="ico">${i<currentLevel?'✅':icons[i]}</span><span>${n}</span><small>${i<currentLevel?'COMPLETED':i===currentLevel?'TAP TO PLAY':'LOCKED 🔒'}</small>`;b.disabled=i>currentLevel;b.onclick=()=>playLevel(i);grid.appendChild(b)});
+ document.getElementById('continueBtn').disabled=currentLevel>=5;
+ document.getElementById('continueBtn').textContent=currentLevel>=5?'QUEST COMPLETE ✓':'LET’S GO →';
+}
+function backToMap(){showMap()}
+function playLevel(n){
+ if(n>=5){show('ending');celebrate();return}
+ currentLevel=n;update();show('gameScreen');document.getElementById('toast').textContent='';
+ const c=document.getElementById('gameContent');
+ if(n===0) c.innerHTML=`<div class="scene"><div class="big-emoji">⭐🕵️‍♀️</div><h2>The Star Thief</h2><p>A cheeky moon goblin stole 5 stars and hid them in this clearing. Tap all five to get them back!</p><p>找到全部五颗星星！</p></div><div class="targets">${[0,1,2,3,4].map(i=>`<button class="star" id="s${i}" onclick="findStar(${i})">✨</button>`).join('')}</div><p style="text-align:center;font-weight:900">Stars found: <span id="foundCount">0</span>/5</p>`;
+ if(n===1) c.innerHTML=`<div class="scene"><div class="big-emoji">🌳🦊</div><h2>The Silly Forest</h2><p>A talking fox blocks the path. It says: “Answer my very serious question!”</p><h3>What has hands but cannot clap?</h3><p>狐狸：答错了我也不会生气……大概。</p></div><div class="choices"><button class="choice" onclick="answer(false)">A tiny potato 🥔</button><button class="choice" onclick="answer(true)">A clock ⏰</button><button class="choice" onclick="answer(false)">A sleepy cat 🐱</button><button class="choice" onclick="answer(false)">Your homework 📚</button></div>`;
+ if(n===2) c.innerHTML=`<div class="scene"><div class="big-emoji">🗝️🧙</div><h2>The Lost Key</h2><p>The castle key is hiding under one of these mystery pots. Choose wisely!</p><p>小提示：钥匙今天心情很好，但它很会躲。</p></div><div class="cups">${[0,1,2].map(i=>`<button class="cup" onclick="chooseCup(${i})">🏺</button>`).join('')}</div><p style="text-align:center;font-weight:900">One pot has the key...</p>`;
+ if(n===3) c.innerHTML=`<div class="scene"><div class="big-emoji">🎈🐉</div><h2>The Balloon Bandits</h2><p>A baby dragon has tied up the castle gate with 6 balloons. Pop them all to set the gate free!</p><p>轻轻一点，气球就会“啵”！</p></div><div class="balloons">${Array.from({length:6},(_,i)=>`<button class="balloon" id="b${i}" onclick="popBalloon(${i})">🎈</button>`).join('')}</div><p style="text-align:center;font-weight:900">Balloons popped: <span id="popCount">0</span>/6</p>`;
+ if(n===4) c.innerHTML=`<div class="scene"><div class="big-emoji">🏰🎂</div><h2>The Birthday Castle</h2><p>The birthday cake is waiting! Tap all 4 candles to light them up.</p><p>点亮所有蜡烛，生日魔法就会启动！</p></div><div class="candles">${[0,1,2,3].map(i=>`<button class="candle" id="c${i}" onclick="lightCandle(${i})">🕯️</button>`).join('')}</div><p style="text-align:center;font-weight:900">Candles lit: <span id="litCount">0</span>/4</p>`;
+}
+function win(msg){document.getElementById('toast').textContent=msg; if(!document.getElementById('winBtn')){let b=document.createElement('button');b.id='winBtn';b.className='btn gold';b.textContent='CLAIM TREASURE & CONTINUE →';b.onclick=()=>{treasures=Math.max(treasures,currentLevel+1);currentLevel++;update();if(currentLevel>=5){show('ending');celebrate()}else showMap()};document.getElementById('gameContent').appendChild(b)}}
+function findStar(i){if(foundStars.has(i))return;foundStars.add(i);stars++;document.getElementById('s'+i).classList.add('found');document.getElementById('s'+i).textContent='🌟';document.getElementById('foundCount').textContent=foundStars.size;update();if(foundStars.size===5)win('You caught every star! The goblin says: “Okay, wow. Respect.”')}
+function answer(ok){if(ok){win('Correct! The fox is impressed. “You may pass, genius human.”')}else{document.getElementById('toast').textContent='Nope! The fox does a dramatic faint. Try another answer. 😵‍💫'}}
+function chooseCup(i){if(keyFound)return;if(i===1){keyFound=true;document.querySelectorAll('.cup').forEach((x,j)=>x.textContent=j===1?'🗝️':'🫙');win('KEY FOUND! The wizard whispers: “Please return my soup pot.”')}else{document.querySelectorAll('.cup')[i].textContent='🐸';document.getElementById('toast').textContent='A frog?! That is definitely not a key. Try again!'}}
+function popBalloon(i){let b=document.getElementById('b'+i);if(b.classList.contains('popped'))return;b.classList.add('popped');popped++;document.getElementById('popCount').textContent=popped;if(popped===6)win('Gate unlocked! The baby dragon says “poot” instead of “poof”.')}
+function lightCandle(i){if(lit.has(i))return;lit.add(i);document.getElementById('c'+i).classList.add('lit');document.getElementById('c'+i).textContent='🕯️✨';document.getElementById('litCount').textContent=lit.size;if(lit.size===4){win('All candles are glowing! Make a birthday wish!');setTimeout(celebrate,400)}}
+function celebrate(){for(let i=0;i<65;i++){let s=document.createElement('div');s.className='spark';s.textContent=['✨','🎉','⭐','💖','🎊'][Math.floor(Math.random()*5)];s.style.left=Math.random()*100+'vw';s.style.top=(-10-Math.random()*30)+'px';s.style.animationDelay=Math.random()*.7+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),2400)}}
+function restart(){currentLevel=0;stars=0;treasures=0;foundStars.clear();keyFound=false;popped=0;lit.clear();update();show('intro')}
+function toggleSound(){soundOn=!soundOn;document.getElementById('soundBtn').textContent='♫ Sound: '+(soundOn?'on':'off');document.getElementById('toast').textContent=soundOn?'Sound switch is ready for a future soundtrack!':'Sound off';}
+update();
+</script>
+</body>
+</html>
